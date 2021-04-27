@@ -1,0 +1,15 @@
+name: Workee-frontend
+region: nyc
+static_sites:
+  - build_command: |-
+      npm install
+      npm run build
+    environment_slug: node-js
+    github:
+      branch: master
+      deploy_on_push: true
+      repo: hebotech/gaerne
+    name: gaerne
+    catchall_document: index.html
+    routes:
+      - path: /

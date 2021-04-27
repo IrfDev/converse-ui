@@ -1,0 +1,36 @@
+canvas {
+  display: block;
+  vertical-align: bottom;
+  overflow: hidden;
+}
+
+#app,
+body {
+  position: relative;
+}
+
+.redShadow {
+  text-shadow: -3px 0 red;
+}
+.greenShadow {
+  text-shadow: -3px 0 red;
+}
+
+.main-content .container-fluid {
+  background-color: #fff;
+}
+
+.product-col .card .link-to {
+  color: #000;
+  font-family: Cousine;
+  font-weight: 700;
+  /* background-color: #f4d316; */
+  padding: 1% 5%;
+  border: 3.5px #f4d316 solid;
+  border-bottom-width: 3px;
+  border-top: none;
+  border-left: none;
+}
+.product-col .card-text {
+  font-family: Open Sans;
+}
