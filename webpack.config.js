@@ -4,6 +4,10 @@ const path = require('path');
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
 
+const postcss = require('postcss');
+
+const postcssImport = require('postcss-import');
+
 const { preprocess } = require('./svelte.config');
 
 module.exports = {
@@ -36,11 +40,20 @@ module.exports = {
       {
         test: /\.css$/,
         sideEffects: true,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          { loader: 'postcss-loader' },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+          { loader: 'postcss-loader' },
+        ],
         sideEffects: true,
       },
       {
@@ -55,6 +68,17 @@ module.exports = {
             emitCss: true,
             preprocess,
             hotReload: true,
+            style: ({ content, attributes, filename }) => {
+              return postcss([postcssImport])
+                .process(content, { from: filename })
+                .then((result) => {
+                  return { code: result.css, map: null };
+                })
+                .catch((err) => {
+                  console.log('failed to preprocess style', err);
+                  return;
+                });
+            },
           },
         },
       },

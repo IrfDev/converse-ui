@@ -1,0 +1,84 @@
+:root {
+  font-family: 'Roboto', sans-serif;
+  h1,
+  h2 {
+    font-weight: 900;
+  }
+  h3,
+  h4 {
+    font-weight: 700;
+  }
+  h3,
+  h4 {
+    font-weight: 600;
+  }
+  p,
+  span {
+    font-weight: 300;
+  }
+
+  span {
+    font-weight: 500;
+  }
+  small {
+    font-weight: 400;
+  }
+  button {
+    font-weight: 600;
+  }
+  input {
+    outline: none;
+  }
+  a {
+    text-decoration: none;
+    color: $alpha-color;
+    transition: all ease-out 0.5s;
+    font-weight: 500;
+    &:hover {
+      font-weight: 600;
+      text-decoration: underline;
+      transition: all ease-in 0.5s;
+    }
+  }
+}
+
+html {
+  background-color: #3f3f3f !important;
+}
+main {
+  background-color: #3f3f3f !important;
+  .chat-column {
+    background-color: #000;
+  }
+  & > div {
+    color: #eee;
+    @media screen and (min-width: 780px) {
+      height: 100vh;
+    }
+  }
+
+  .actions-column {
+    animation: shadowIn 0.5s ease-in alternate;
+    @keyframes shadowIn {
+      0% {
+        transform: translateX(-0.5rem);
+        box-shadow: 0 0 0 black;
+        opacity: 0.4;
+        border-right: 0.1rem solid transparent;
+      }
+      100% {
+        box-shadow: 5px 10px 8px #00000050;
+      }
+    }
+    border-color: #eee;
+    min-height: 100%;
+    border-right: 0.1rem solid;
+    background-color: #000000;
+    box-shadow: 5px 10px 8px #00000050;
+    transition: all ease-out 0.5s;
+    &:hover {
+      box-shadow: 5px 10px 15px #00000088;
+      transition: all ease-in 0.5s;
+    }
+  }
+}

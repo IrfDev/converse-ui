@@ -1,13 +1,20 @@
 <script>
-  import LogoAnimation from 'Atoms/LogoAnimation';
 </script>
+
+<div
+  class="row hero-header text-center justify-content-center align-items-center"
+  id="hero-header-home"
+>
+  <div class="col-12 title-hero">
+    <h1 class="m-auto">Boots Co. <br /> Gaerne México 🇲🇽</h1>
+  </div>
+</div>
 
 <style>
   .hero-header {
     display: flex;
     height: 100vh;
     min-width: 100%;
-    background-image: url(/images/background/sg-12.jpg);
     background-color: #333;
     /* padding: 17em; */
     background-size: cover;
@@ -31,14 +38,3 @@
     }
   }
 </style>
-
-<div
-  class="row hero-header text-center justify-content-center align-items-center"
-  id="hero-header-home">
-  <div class="col-12 logo-animation">
-    <LogoAnimation />
-  </div>
-  <div class="col-12 title-hero">
-    <h1 class="m-auto">Boots Co. <br /> Gaerne México 🇲🇽</h1>
-  </div>
-</div>

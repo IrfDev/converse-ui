@@ -1,37 +1,48 @@
 {
-  "name": "converse-ui",
+  "name": "@stsdt/converse-ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "./src/custom/headless"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "webpack serve --content-base public"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "css-loader": "^2.1.1",
-    "mini-css-extract-plugin": "^0.6.0",
+    "css-loader": "^5.2.4",
+    "mini-css-extract-plugin": "^1.5.0",
     "node-sass": "^4.14.1",
+    "postcss-preset-env": "^6.7.0",
     "sass": "^1.26.11",
     "serve": "^11.0.0",
-    "style-loader": "^0.23.1",
+    "style-loader": "^2.0.0",
     "svelte": "^3.0.0",
-    "svelte-loader": "2.13.3",
-    "svelte-preprocess": "^4.3.2",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.0",
+    "svelte-loader": "3.1.1",
+    "svelte-preprocess": "^4.7.2",
+    "webpack": "^5.36.0",
+    "webpack-cli": "^4.6.0",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.11.2",
     "webpack-hot-middleware": "^2.25.0"
   },
   "dependencies": {
     "@beyonk/svelte-google-analytics": "^2.2.0",
+    "@converse/headless": "^7.0.5",
+    "autoprefixer": "^10.2.5",
     "axios": "^0.21.1",
-    "gsap": "^3.5.1",
+    "gsap": "^3.6.1",
     "particles.js": "^2.0.0",
+    "postcss": "^8.2.13",
+    "postcss-import": "^14.0.1",
+    "postcss-loader": "^5.2.0",
     "prettier": "^2.2.1",
-    "sass-loader": "^10.0.2",
-    "svelte-routing": "^1.4.2",
-    "svelte-seo": "^1.0.1"
+    "sass-loader": "^11.0.1",
+    "svelte-routing": "^1.6.0",
+    "svelte-seo": "^1.1.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
   },
   "keywords": [],
   "author": "",

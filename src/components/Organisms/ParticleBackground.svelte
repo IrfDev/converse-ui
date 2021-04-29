@@ -83,13 +83,14 @@
   });
 </script>
 
+<div id="particles-js" />
+
 <style>
   #particles-js {
     top: 0;
     width: 100vw;
     height: 100vh;
     background-color: #323840;
-    background-image: url('/images/background/main.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50% 50%;
@@ -98,5 +99,3 @@
     position: fixed;
   }
 </style>
-
-<div id="particles-js" />
