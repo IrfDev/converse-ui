@@ -1,4 +1,15 @@
-window.converse.initialize({
+import converses from '@converse/headless/headless';
+
+converses.initialize({
+  auto_away: 300,
+  enable_smacks: true,
+  loglevel: 'debug',
+  message_archiving: 'always',
+  muc_respect_autojoin: true,
+  muc_show_logs_before_join: true,
+  notify_all_room_messages: ['discuss@conference.conversejs.org'],
+  persistent_store: 'IndexedDB',
+  theme: 'concord',
   authentication: 'anonymous',
   auto_login: true,
   auto_join_rooms: ['anonymous@conference.nomnom.im'],
@@ -6,7 +17,26 @@ window.converse.initialize({
   jid: 'nomnom.im',
   notify_all_room_messages: ['anonymous@conference.nomnom.im'],
   show_controlbox_by_default: true,
-  view_mode: 'overlayed',
+  view_mode: 'fullscreen',
+  websocket_url: 'wss://conversejs.org/xmpp-websocket',
+  whitelisted_plugins: ['converse-debug'],
+  initialMessage: 'Hi, how can I help you ? ',
+  enable_smacks: true,
+  persistent_store: 'IndexedDB',
+  theme: 'concord',
+
+  muc_nickname_from_jid: false,
+  keepalive: true,
+  auto_reconnect: true,
+  show_client_info: false,
+  muc_fetch_members: false,
+  locked_muc_nickname: false,
+  show_send_button: true,
+  allow_message_corrections: false,
+  muc_show_join_leave: false,
+  allow_message_retraction: false,
+  muc_show_join_leave_status: false,
+  isShowTranslatedText: true,
 });
 
-export default converse;
+export default converses;

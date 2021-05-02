@@ -6,28 +6,25 @@
  * @license Mozilla Public License (MPLv2)
  */
 import ping_api from './api.js';
-import { api, converse } from "@converse/headless/core.js";
+import { api, converse } from '@converse/staytus/core.js';
 import { onEverySecond, onWindowStateChanged, onConnected } from './utils.js';
 
 const { Strophe } = converse.env;
 
-
-Strophe.addNamespace('PING', "urn:xmpp:ping");
-
+Strophe.addNamespace('PING', 'urn:xmpp:ping');
 
 converse.plugins.add('converse-ping', {
+  initialize() {
+    api.settings.extend({
+      ping_interval: 60, //in seconds
+    });
 
-    initialize () {
-        api.settings.extend({
-            ping_interval: 60 //in seconds
-        });
+    Object.assign(api, ping_api);
 
-        Object.assign(api, ping_api);
+    setInterval(onEverySecond, 1000);
 
-        setInterval(onEverySecond, 1000);
-
-        api.listen.on('connected', onConnected);
-        api.listen.on('reconnected', onConnected);
-        api.listen.on('windowStateChanged', onWindowStateChanged);
-    }
+    api.listen.on('connected', onConnected);
+    api.listen.on('reconnected', onConnected);
+    api.listen.on('windowStateChanged', onWindowStateChanged);
+  },
 });

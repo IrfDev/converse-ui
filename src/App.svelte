@@ -10,16 +10,14 @@
   import Product from './views/Product';
   import Distribuitors from './views/Distribuitors';
 
-  import Particle from 'Organisms/ParticleBackground';
-  import MainFooter from 'Organisms/MainFooter';
-  import Navbar from 'Organisms/Navbar';
-  import TopBar from 'Organisms/TopBar';
   import '../src/assets/styles/styles.scss';
 
-  import converse from '../src/lib/Converse';
+  import converseInstance from '../src/lib/Converse';
+  console.log(converseInstance);
+  import { api, converse, _converse } from '@converse/staytus/core';
 
   onMount(() => {
-    console.log(converse);
+    console.log(api, converse, _converse);
   });
 
   let showButton = false;

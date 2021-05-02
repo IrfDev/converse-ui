@@ -4,8 +4,8 @@
  */
 import difference from 'lodash-es/difference';
 import indexOf from 'lodash-es/indexOf';
-import log from "@converse/headless/log";
-import { api, converse } from '@converse/headless/core.js';
+import log from '@converse/staytus/log';
+import { api, converse } from '@converse/staytus/core.js';
 import { parseMemberListIQ } from '../parsers.js';
 
 const { Strophe, $iq, u } = converse.env;
@@ -19,28 +19,28 @@ const { Strophe, $iq, u } = converse.env;
  * @param { String } muc_jid - The JID of the MUC for which the affiliation list should be fetched
  * @returns { Promise<MemberListItem[]> }
  */
-export async function getAffiliationList (affiliation, muc_jid) {
-    const iq = $iq({ 'to': muc_jid, 'type': 'get' })
-        .c('query', { xmlns: Strophe.NS.MUC_ADMIN })
-        .c('item', { 'affiliation': affiliation });
-    const result = await api.sendIQ(iq, null, false);
-    if (result === null) {
-        const err_msg = `Error: timeout while fetching ${affiliation} list for MUC ${muc_jid}`;
-        const err = new Error(err_msg);
-        log.warn(err_msg);
-        log.warn(result);
-        return err;
-    }
-    if (u.isErrorStanza(result)) {
-        const err_msg = `Error: not allowed to fetch ${affiliation} list for MUC ${muc_jid}`;
-        const err = new Error(err_msg);
-        log.warn(err_msg);
-        log.warn(result);
-        return err;
-    }
-    return parseMemberListIQ(result)
-        .filter(p => p)
-        .sort((a, b) => (a.nick < b.nick ? -1 : a.nick > b.nick ? 1 : 0));
+export async function getAffiliationList(affiliation, muc_jid) {
+  const iq = $iq({ to: muc_jid, type: 'get' })
+    .c('query', { xmlns: Strophe.NS.MUC_ADMIN })
+    .c('item', { affiliation: affiliation });
+  const result = await api.sendIQ(iq, null, false);
+  if (result === null) {
+    const err_msg = `Error: timeout while fetching ${affiliation} list for MUC ${muc_jid}`;
+    const err = new Error(err_msg);
+    log.warn(err_msg);
+    log.warn(result);
+    return err;
+  }
+  if (u.isErrorStanza(result)) {
+    const err_msg = `Error: not allowed to fetch ${affiliation} list for MUC ${muc_jid}`;
+    const err = new Error(err_msg);
+    log.warn(err_msg);
+    log.warn(result);
+    return err;
+  }
+  return parseMemberListIQ(result)
+    .filter((p) => p)
+    .sort((a, b) => (a.nick < b.nick ? -1 : a.nick > b.nick ? 1 : 0));
 }
 
 /**
@@ -52,9 +52,11 @@ export async function getAffiliationList (affiliation, muc_jid) {
  * @param { string } [users[].reason] - An optional reason for the affiliation change
  * @returns { Promise }
  */
-export function setAffiliations (muc_jid, users) {
-    const affiliations = [...new Set(users.map(u => u.affiliation))];
-    return Promise.all(affiliations.map(a => setAffiliation(a, muc_jid, users)));
+export function setAffiliations(muc_jid, users) {
+  const affiliations = [...new Set(users.map((u) => u.affiliation))];
+  return Promise.all(
+    affiliations.map((a) => setAffiliation(a, muc_jid, users))
+  );
 }
 
 /**
@@ -75,14 +77,22 @@ export function setAffiliations (muc_jid, users) {
  *  same affiliation as being currently set will be considered.
  * @returns { Promise } A promise which resolves and fails depending on the XMPP server response.
  */
-export function setAffiliation (affiliation, muc_jids, members) {
-    if (!Array.isArray(muc_jids)) {
-        muc_jids = [muc_jids];
-    }
-    members = members.filter(m => [undefined, affiliation].includes(m.affiliation));
-    return Promise.all(
-        muc_jids.reduce((acc, jid) => [...acc, ...members.map(m => sendAffiliationIQ(affiliation, jid, m))], [])
-    );
+export function setAffiliation(affiliation, muc_jids, members) {
+  if (!Array.isArray(muc_jids)) {
+    muc_jids = [muc_jids];
+  }
+  members = members.filter((m) =>
+    [undefined, affiliation].includes(m.affiliation)
+  );
+  return Promise.all(
+    muc_jids.reduce(
+      (acc, jid) => [
+        ...acc,
+        ...members.map((m) => sendAffiliationIQ(affiliation, jid, m)),
+      ],
+      []
+    )
+  );
 }
 
 /**
@@ -92,18 +102,18 @@ export function setAffiliation (affiliation, muc_jids, members) {
  * @param { String } muc_jid: The JID of the MUC in which the affiliation should be set.
  * @param { Object } member: Map containing the member's jid and optionally a reason and affiliation.
  */
-function sendAffiliationIQ (affiliation, muc_jid, member) {
-    const iq = $iq({ to: muc_jid, type: 'set' })
-        .c('query', { xmlns: Strophe.NS.MUC_ADMIN })
-        .c('item', {
-            'affiliation': member.affiliation || affiliation,
-            'nick': member.nick,
-            'jid': member.jid
-        });
-    if (member.reason !== undefined) {
-        iq.c('reason', member.reason);
-    }
-    return api.sendIQ(iq);
+function sendAffiliationIQ(affiliation, muc_jid, member) {
+  const iq = $iq({ to: muc_jid, type: 'set' })
+    .c('query', { xmlns: Strophe.NS.MUC_ADMIN })
+    .c('item', {
+      affiliation: member.affiliation || affiliation,
+      nick: member.nick,
+      jid: member.jid,
+    });
+  if (member.reason !== undefined) {
+    iq.c('reason', member.reason);
+  }
+  return api.sendIQ(iq);
 }
 
 /**
@@ -132,23 +142,37 @@ function sendAffiliationIQ (affiliation, muc_jid, member) {
  * @param { array } old_list - Array containing the old affiliations
  * @returns { array }
  */
-export function computeAffiliationsDelta (exclude_existing, remove_absentees, new_list, old_list) {
-    const new_jids = new_list.map(o => o.jid);
-    const old_jids = old_list.map(o => o.jid);
-    // Get the new affiliations
-    let delta = difference(new_jids, old_jids).map(jid => new_list[indexOf(new_jids, jid)]);
-    if (!exclude_existing) {
-        // Get the changed affiliations
-        delta = delta.concat(
-            new_list.filter(item => {
-                const idx = indexOf(old_jids, item.jid);
-                return idx >= 0 ? item.affiliation !== old_list[idx].affiliation : false;
-            })
-        );
-    }
-    if (remove_absentees) {
-        // Get the removed affiliations
-        delta = delta.concat(difference(old_jids, new_jids).map(jid => ({ 'jid': jid, 'affiliation': 'none' })));
-    }
-    return delta;
+export function computeAffiliationsDelta(
+  exclude_existing,
+  remove_absentees,
+  new_list,
+  old_list
+) {
+  const new_jids = new_list.map((o) => o.jid);
+  const old_jids = old_list.map((o) => o.jid);
+  // Get the new affiliations
+  let delta = difference(new_jids, old_jids).map(
+    (jid) => new_list[indexOf(new_jids, jid)]
+  );
+  if (!exclude_existing) {
+    // Get the changed affiliations
+    delta = delta.concat(
+      new_list.filter((item) => {
+        const idx = indexOf(old_jids, item.jid);
+        return idx >= 0
+          ? item.affiliation !== old_list[idx].affiliation
+          : false;
+      })
+    );
+  }
+  if (remove_absentees) {
+    // Get the removed affiliations
+    delta = delta.concat(
+      difference(old_jids, new_jids).map((jid) => ({
+        jid: jid,
+        affiliation: 'none',
+      }))
+    );
+  }
+  return delta;
 }

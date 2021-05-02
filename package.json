@@ -33,6 +33,7 @@
     "@converse/headless": "^7.0.5",
     "autoprefixer": "^10.2.5",
     "axios": "^0.21.1",
+    "converse.js": "^7.0.5",
     "gsap": "^3.6.1",
     "particles.js": "^2.0.0",
     "postcss": "^8.2.13",
